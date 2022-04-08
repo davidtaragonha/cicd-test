@@ -1,0 +1,14 @@
+name: Pull request workflow
+on: [push]
+jobs:
+  Compile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+      - name: Compile with Maven
+        run: mvn --batch-mode --update-snapshots verify
