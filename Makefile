@@ -6,12 +6,12 @@ help:
 
 #build.compile: @ Compile project
 build.compile:
-	mvn clean test-compile
+	./mvnw clean test-compile
 
 #build.package: @ Package project into a jar file
 build.package:
-	mvn package
+	./mvnw package
 
 #test.unit: @ Execute unit test
 test.unit:
-	mvn test
+	./mvnw test
