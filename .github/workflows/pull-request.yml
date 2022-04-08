@@ -14,8 +14,9 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
       - name: Compile with Maven
-        run: mvn test-compile
+        run: make build.compile
   Package:
+    needs: Compile
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -25,4 +26,4 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
       - name: Package with Maven
-        run: mvn package
+        run: make build.package
