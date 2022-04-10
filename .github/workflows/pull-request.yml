@@ -31,9 +31,15 @@ jobs:
       - name: Sysdig CIS Dockerfile Benchmark
         uses: sysdiglabs/benchmark-dockerfile@v1.0.0
         id: cis_dockerfile_benchmark
+  Dependency-Review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: 'Dependency Review'
+        uses: actions/dependency-review-action@v1
   Tests:
     runs-on: ubuntu-latest
-    needs: [Compile, CIS-Dockerfile]
+    needs: [Compile, CIS-Dockerfile, Dependency-Review]
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 11
@@ -61,7 +67,7 @@ jobs:
           reporter: java-junit
   Package:
     runs-on: ubuntu-latest
-    needs: [Compile, CIS-Dockerfile]
+    needs: [Compile, CIS-Dockerfile, Dependency-Review]
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 11
