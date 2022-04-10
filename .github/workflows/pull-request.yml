@@ -13,11 +13,33 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
+      - name: Cache local Maven dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ./.mvn/wrapper/maven-wrapper.jar
+            ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml', '**/maven-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
       - name: Compile with Maven
         run: make build.compile
+  CIS-Dockerfile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Sysdig CIS Dockerfile Benchmark
+        uses: sysdiglabs/benchmark-dockerfile@v1.0.0
+        id: cis_dockerfile_benchmark
+  Dependency-Review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: 'Dependency Review'
+        uses: actions/dependency-review-action@v1
   Tests:
     runs-on: ubuntu-latest
-    needs: Compile
+    needs: [Compile, CIS-Dockerfile, Dependency-Review]
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 11
@@ -25,11 +47,27 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
+      - name: Cache local Maven dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ./.mvn/wrapper/maven-wrapper.jar
+            ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml', '**/maven-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
       - name: Tests Maven
         run: make test.unit
+      - name: Test Report
+        uses: dorny/test-reporter@v1
+        if: success() || failure()
+        with:
+          name: Report Tests
+          path: target/surefire-reports/TEST-*.xml
+          reporter: java-junit
   Package:
     runs-on: ubuntu-latest
-    needs: Compile
+    needs: [Compile, CIS-Dockerfile, Dependency-Review]
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 11
@@ -37,5 +75,14 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
+      - name: Cache local Maven dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ./.mvn/wrapper/maven-wrapper.jar
+            ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml', '**/maven-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
       - name: Package with Maven
         run: make build.package
