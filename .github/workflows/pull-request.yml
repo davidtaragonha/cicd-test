@@ -24,9 +24,16 @@ jobs:
             ${{ runner.os }}-maven-
       - name: Compile with Maven
         run: make build.compile
+  CIS-Dockerfile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Sysdig CIS Dockerfile Benchmark
+        uses: sysdiglabs/benchmark-dockerfile@v1.0.0
+        id: cis_dockerfile_benchmark
   Tests:
     runs-on: ubuntu-latest
-    needs: Compile
+    needs: [Compile, CIS-Dockerfile]
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 11
@@ -54,7 +61,7 @@ jobs:
           reporter: java-junit
   Package:
     runs-on: ubuntu-latest
-    needs: Compile
+    needs: [Compile, CIS-Dockerfile]
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 11
