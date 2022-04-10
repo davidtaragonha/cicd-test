@@ -13,7 +13,7 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
-      - name: Cache local Maven repository
+      - name: Cache local Maven dependencies
         uses: actions/cache@v3
         with:
           path: |
@@ -34,6 +34,15 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
+      - name: Cache local Maven dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ./.mvn/wrapper/maven-wrapper.jar
+            ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml', '**/maven-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
       - name: Tests Maven
         run: make test.unit
   Package:
@@ -46,5 +55,14 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
+      - name: Cache local Maven dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ./.mvn/wrapper/maven-wrapper.jar
+            ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml', '**/maven-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
       - name: Package with Maven
         run: make build.package
