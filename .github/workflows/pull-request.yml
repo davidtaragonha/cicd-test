@@ -49,6 +49,7 @@ jobs:
         uses: dorny/test-reporter@v1
         if: success() || failure()
         with:
+          name: Junit Tests
           path: target/surefire-reports/TEST-*.xml
           reporter: java-junit
   Package:
