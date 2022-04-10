@@ -13,6 +13,15 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
+      - name: Cache local Maven repository
+        uses: actions/cache@v3
+        with:
+          path: |
+            ./.mvn/wrapper/maven-wrapper.jar
+            ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml', '**/maven-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
       - name: Compile with Maven
         run: make build.compile
   Tests:
