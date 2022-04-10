@@ -11,6 +11,7 @@ build.compile:
 #build.package: @ Package project into a jar file
 build.package:
 	./mvnw package
+	docker build --tag cicd-test:1.0.0-SNAPSHOT .
 
 #test.unit: @ Execute unit test
 test.unit:
