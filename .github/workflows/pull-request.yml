@@ -148,5 +148,4 @@ jobs:
         with:
           image: "localbuild/testimage:latest"
           fail-build: true
-          #acs-report-enable: true
           severity-cutoff: low
