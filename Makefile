@@ -13,6 +13,14 @@ build.package:
 	./mvnw package
 	DOCKER_BUILDKIT=1 docker build --tag cicd-test:1.0.0-SNAPSHOT .
 
-#test.unit: @ Execute unit test
-test.unit:
-	./mvnw test
+#test.ut: @ Execute uts
+test.ut:
+	./mvnw -Dgroups=ut test
+
+#test.it: @ Execute its
+test.it:
+	./mvnw -Dgroups=it test
+
+#test.at: @ Execute ats
+test.at:
+	./mvnw -Dgroups=at test
