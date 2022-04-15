@@ -142,24 +142,6 @@ jobs:
             ${{ runner.os }}-maven-
       - name: Package with Maven
         run: make build.package
-      - uses: actions/upload-artifact@v3
-        with:
-          name: jar
-          path: target/cicd-test-1.0.0-SNAPSHOT.jar
-  # Scan vulnerabilities in the dockerfile
-  Dockerfile-Vulnerabilities:
-    runs-on: ubuntu-latest
-    needs: [Package]
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/download-artifact@v3
-        with:
-          name: jar
-          path: target/cicd-test-1.0.0-SNAPSHOT.jar
-      - name: show target folder
-        run: |
-          cd target
-          ls -lisa
       - name: Build the container image
         run: docker build . --file Dockerfile --tag localbuild/testimage:latest
       - uses: anchore/scan-action@v3
