@@ -27,15 +27,18 @@ jobs:
       - name: Compile with Maven
         run: make build.compile
 # Scan vulnerabilities in the dockerfile
-  CIS-Dockerfile:
+  Dockerfile-Vulnerabilties:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Sysdig CIS Dockerfile Benchmark
-        uses: sysdiglabs/benchmark-dockerfile@v1.0.0
-        id: cis_dockerfile_benchmark
+      - name: Scan Dockerfile
+        uses: anchore/scan-action@v3
+        with:
+          path: "."
+          fail-build: true
+          acs-report-enable: true
 # Scan vulnerabilities in the third party dependencies
-  Dependency-Review:
+  Maven-Dependencies-Review:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
