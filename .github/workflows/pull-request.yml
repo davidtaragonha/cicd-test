@@ -150,3 +150,5 @@ jobs:
           fail-build: false
           acs-report-enable: true
           severity-cutoff: low
+      - name: Inspect action SARIF report
+        run: cat ${{ steps.scan.outputs.sarif }}
