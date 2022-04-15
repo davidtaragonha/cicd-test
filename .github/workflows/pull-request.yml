@@ -155,7 +155,7 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: jar
-          path: target/*.jar
+          path: target/application.jar
       - name: show target folder
         run: |
           cd target
