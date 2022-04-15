@@ -143,7 +143,7 @@ jobs:
       - name: Package with Maven
         run: make build.package
       - name: Build the container image
-        run: docker build . --file Dockerfile --tag localbuild/testimage:latest
+        run: DOCKER_BUILDKIT=1 docker build . --file Dockerfile --tag localbuild/testimage:latest
       - uses: anchore/scan-action@v3
         with:
           image: "localbuild/testimage:latest"
