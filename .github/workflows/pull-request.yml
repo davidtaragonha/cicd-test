@@ -147,8 +147,6 @@ jobs:
       - uses: anchore/scan-action@v3
         with:
           image: "localbuild/testimage:latest"
-          fail-build: false
-          acs-report-enable: true
+          fail-build: true
+          #acs-report-enable: true
           severity-cutoff: low
-      - name: Inspect action SARIF report
-        run: cat ${{ steps.scan.outputs.sarif }}
