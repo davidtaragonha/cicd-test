@@ -145,7 +145,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: jar
-          path: target/*.jar
+          path: target/cicd-test-1.0.0-SNAPSHOT.jar
   # Scan vulnerabilities in the dockerfile
   Dockerfile-Vulnerabilities:
     runs-on: ubuntu-latest
@@ -155,7 +155,7 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: jar
-          path: target/application.jar
+          path: target/cicd-test-1.0.0-SNAPSHOT.jar
       - name: show target folder
         run: |
           cd target
