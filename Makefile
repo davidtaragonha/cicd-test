@@ -8,10 +8,14 @@ help:
 build.compile:
 	./mvnw clean test-compile
 
-#build.package: @ Package project into a jar file
+#build.package: @ Package project into a jar file and container image davidtaragonha/cicd-test:latest
 build.package:
 	./mvnw package
-	DOCKER_BUILDKIT=1 docker build --tag cicd-test:1.0.0-SNAPSHOT .
+	DOCKER_BUILDKIT=1 docker build . --file Dockerfile --tag davidtaragonha/cicd-test:latest
+
+#build.deploy: @ Deploy project to the package repository
+build.deploy:
+	./mvnw deploy --activate-profiles github
 
 #test.ut: @ Execute uts
 test.ut:
