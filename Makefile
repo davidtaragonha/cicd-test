@@ -8,9 +8,10 @@ help:
 build.compile:
 	./mvnw clean test-compile
 
-#build.package: @ Package project into a jar file
+#build.package: @ Package project into a jar file and container image davidtaragonha/cicd-test:latest
 build.package:
 	./mvnw package
+	DOCKER_BUILDKIT=1 docker build . --file Dockerfile --tag davidtaragonha/cicd-test:latest
 
 #build.deploy: @ Deploy project to the package repository
 build.deploy:
