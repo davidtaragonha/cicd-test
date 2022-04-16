@@ -46,7 +46,7 @@ jobs:
       - name: Run kubesec scanner
         uses: controlplaneio/kubesec-action@43d0ddff5ffee89a6bb9f29b64cd865411137b14
         with:
-          input: k8s/*.yaml
+          input: ./k8s/*.yaml
           exit-code: "0"
           format: template
           template: template/sarif.tpl
@@ -61,11 +61,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # Override automatic language detection by changing the below list
-        # Supported options are ['csharp', 'cpp', 'go', 'java', 'javascript', 'python']
         language: [ 'java' ]
-        # Learn more...
-        # https://docs.github.com/en/github/finding-security-vulnerabilities-and-errors-in-your-code/configuring-code-scanning#overriding-automatic-language-detection
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 11
@@ -84,7 +80,7 @@ jobs:
 # Execute the unit tests of the project
   Unit-Tests:
     runs-on: ubuntu-latest
-    needs: [Compile, Maven-Dependencies-Review]
+    needs: [Compile, Maven-Dependencies-Review, Code-Review]
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 11
@@ -113,7 +109,7 @@ jobs:
 # Execute the integration tests of the project
   Integration-Tests:
     runs-on: ubuntu-latest
-    needs: [Compile, Maven-Dependencies-Review]
+    needs: [Compile, Maven-Dependencies-Review, Code-Review]
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 11
@@ -142,7 +138,7 @@ jobs:
 # Execute the acceptance tests of the project
   Acceptance-Tests:
     runs-on: ubuntu-latest
-    needs: [Compile, Maven-Dependencies-Review]
+    needs: [Compile, Maven-Dependencies-Review, Code-Review]
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 11
@@ -171,7 +167,7 @@ jobs:
 # Create the artifacts of the project: jar, container... and deploy them
   Package-Deploy:
     runs-on: ubuntu-latest
-    needs: [Compile, Maven-Dependencies-Review]
+    needs: [Compile, Maven-Dependencies-Review, Code-Review]
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 11
