@@ -33,6 +33,23 @@ jobs:
       - uses: actions/checkout@v3
       - name: 'Dependency Review'
         uses: actions/dependency-review-action@v1
+# Scan vulnerabilities in the third party dependencies
+  K8s-Review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run kubesec scanner
+        uses: controlplaneio/kubesec-action@master
+        with:
+          input: k8s/*.yaml
+          exit-code: "0"
+          format: template
+          template: template/sarif.tpl
+          output: kubesec-results.sarif
+      - name: Upload Kubesec scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: kubesec-results.sarif
 # Execute the unit tests of the project
   Unit-Tests:
     runs-on: ubuntu-latest
