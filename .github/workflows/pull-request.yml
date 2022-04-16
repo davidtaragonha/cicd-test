@@ -143,4 +143,6 @@ jobs:
       - name: Package with Maven
         run: make build.package
       - name: Deploy to Maven Repository
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: make build.deploy
