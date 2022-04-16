@@ -143,11 +143,11 @@ jobs:
       - name: Package with Maven
         run: make build.package
       - name: Build the Container image
-        run: DOCKER_BUILDKIT=1 docker build . --file Dockerfile --tag localbuild/testimage:latest
+        run: DOCKER_BUILDKIT=1 docker build . --file Dockerfile --tag ${{ github.repository }}:latest
       - uses: anchore/scan-action@v3
         id: scan
         with:
-          image: "localbuild/testimage:latest"
+          image: ${{ github.repository }}:latest
           acs-report-enable: true
           fail-build: false
       - name: upload Anchore scan SARIF report
