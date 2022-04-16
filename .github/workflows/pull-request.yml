@@ -142,6 +142,10 @@ jobs:
             ${{ runner.os }}-maven-
       - name: Package with Maven
         run: make build.package
+      - name: Publish maven package to Github
+        run: mvn -B deploy -f pom.xml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Build the Container image
         run: DOCKER_BUILDKIT=1 docker build . --file Dockerfile --tag ${{ github.repository }}:latest
       - uses: anchore/scan-action@v3
