@@ -12,6 +12,10 @@ build.compile:
 build.package:
 	./mvnw package
 
+#build.deploy: @ Deploy project to the package repository
+build.deploy:
+	./mvnw deploy
+
 #test.ut: @ Execute uts
 test.ut:
 	./mvnw -Dgroups=ut test

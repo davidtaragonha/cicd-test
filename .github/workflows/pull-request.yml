@@ -120,8 +120,8 @@ jobs:
           name: Acceptance tests Report
           path: target/surefire-reports/TEST-*.xml
           reporter: java-junit
-# Create the artifacts of the project: jar, docker...
-  Package:
+# Create the artifacts of the project: jar, docker... and deploy them
+  Package-Deploy:
     runs-on: ubuntu-latest
     needs: [Compile, Maven-Dependencies-Review]
     steps:
@@ -142,10 +142,5 @@ jobs:
             ${{ runner.os }}-maven-
       - name: Package with Maven
         run: make build.package
-      - name: Build the container image
-        run: DOCKER_BUILDKIT=1 docker build . --file Dockerfile --tag localbuild/testimage:latest
-      - uses: anchore/scan-action@v3
-        with:
-          image: "localbuild/testimage:latest"
-          fail-build: true
-          severity-cutoff: low
+      - name: Deploy to Maven Repository
+        run: make build.deploy
