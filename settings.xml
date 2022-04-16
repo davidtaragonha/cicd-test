@@ -6,8 +6,6 @@
     <profile>
       <id>github</id>
       <properties>
-        <altSnapshotDeploymentRepository>snapshots::default::https://maven.pkg.github.com/davidtaragonha/cicd-test</altSnapshotDeploymentRepository>
-        <altReleaseDeploymentRepository>releases::default::https://maven.pkg.github.com/davidtaragonha/cicd-test</altReleaseDeploymentRepository>
         <altDeploymentRepository>releases::default::https://maven.pkg.github.com/davidtaragonha/cicd-test</altDeploymentRepository>
       </properties>
     </profile>

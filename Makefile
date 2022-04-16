@@ -14,7 +14,7 @@ build.package:
 
 #build.deploy: @ Deploy project to the package repository
 build.deploy:
-	./mvnw deploy
+	./mvnw deploy --activate-profiles github
 
 #test.ut: @ Execute uts
 test.ut:
