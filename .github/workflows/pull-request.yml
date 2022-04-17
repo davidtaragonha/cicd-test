@@ -55,6 +55,18 @@ jobs:
         uses: github/codeql-action/autobuild@v1
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
+# Scan k8s manifests
+  K8s-Manifest-Review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: kube-score check
+        uses: piraces/kube-score-ga@v0.1.2
+        with:
+          manifests-folders: './k8s/*.yml'
+      - name: LS files
+        run: |
+          ls -lisa
 # Execute the unit tests of the project
   Unit-Tests:
     runs-on: ubuntu-latest
