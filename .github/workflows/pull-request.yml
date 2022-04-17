@@ -60,11 +60,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Validate manifests
-        uses: makocchi-git/actions-k8s-manifests-validate-kubeval@1.0.1
+      - name: kube-score check
+        uses: piraces/kube-score-ga@v0.1.2
         with:
-          files: k8s
-          token: ${{ secrets.GITHUB_TOKEN }}
+          manifests-folders: './k8s/*.yml'
 # Execute the unit tests of the project
   Unit-Tests:
     runs-on: ubuntu-latest
