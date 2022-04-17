@@ -64,6 +64,9 @@ jobs:
         uses: piraces/kube-score-ga@v0.1.2
         with:
           manifests-folders: './k8s/*.yml'
+      - name: LS files
+        run: |
+          ls -lisa
 # Execute the unit tests of the project
   Unit-Tests:
     runs-on: ubuntu-latest
