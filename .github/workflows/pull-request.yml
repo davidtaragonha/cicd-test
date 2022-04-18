@@ -187,7 +187,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: cicd-test-image
+          name: cicd-test-artifacts
           path: |
             /tmp/cicd-test.tar
             target/*.jar
@@ -201,7 +201,7 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v3
         with:
-          name: cicd-test-image
+          name: cicd-test-artifacts
           path: /tmp
       - name: Load image
         run: |
@@ -226,7 +226,7 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v3
         with:
-          name: cicd-test-image
+          name: cicd-test-artifacts
           path: /tmp
       - name: Load image
         run: |
