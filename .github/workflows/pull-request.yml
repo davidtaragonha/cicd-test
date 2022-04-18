@@ -203,14 +203,13 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: cicd-test-artifacts
-          path: target
       - name: LS in target folder
         run: |
           cd target
           ls -lisa
       - name: Load image
         run: |
-          docker load --input target/cicd-test.tar
+          docker load --input /tmp/cicd-test.tar
           docker image ls -a
       - name: Run application on port 8080
         run: |
@@ -232,10 +231,9 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: cicd-test-artifacts
-          path: target
       - name: Load image
         run: |
-          docker load --input target/cicd-test.tar
+          docker load --input /tmp/cicd-test.tar
           docker image ls -a
       - uses: anchore/scan-action@v3
         id: scan
