@@ -191,6 +191,7 @@ jobs:
           path: |
             /tmp/cicd-test.tar
             target/*.jar
+          retention-days: 1
 # Run the application and execute the ZAP scan
   ZAP-Scan:
     runs-on: ubuntu-latest
@@ -202,10 +203,10 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: cicd-test-artifacts
-          path: /tmp/cicd-test.tar
+          path: target
       - name: Load image
         run: |
-          docker load --input /tmp/cicd-test.tar
+          docker load --input target/cicd-test.tar
           docker image ls -a
       - name: Run application on port 8080
         run: |
@@ -227,10 +228,10 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: cicd-test-artifacts
-          path: /tmp/cicd-test.tar
+          path: target
       - name: Load image
         run: |
-          docker load --input /tmp/cicd-test.tar
+          docker load --input target/cicd-test.tar
           docker image ls -a
       - uses: anchore/scan-action@v3
         id: scan
