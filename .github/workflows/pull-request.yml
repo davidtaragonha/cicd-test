@@ -205,7 +205,8 @@ jobs:
           name: cicd-test-artifacts
       - name: LS in target folder
         run: |
-          cd target
+          ls -lisa
+          cd cicd-test-artifacts
           ls -lisa
       - name: Load image
         run: |
