@@ -1,7 +1,9 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: cicd-test
+  name: {{ include "cicd-test.name" . }}
+  labels:
+    {{- include "cicd-test.labels" . | nindent 4 }}
   annotations:
     ingress.kubernetes.io/ssl-redirect: "false"
 spec:
@@ -12,6 +14,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: cicd-test
+                name: {{ include "cicd-test.name" . }}
                 port:
                   number: 80

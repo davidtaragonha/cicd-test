@@ -10,6 +10,11 @@ build:
   local:
     useBuildkit: true
 deploy:
-  kubectl:
-    manifests:
-    - k8s/*.yaml
+  helm:
+    releases:
+      - name: cicd-test
+        chartPath: helm
+        artifactOverrides:
+          image: cicd-test
+        imageStrategy:
+          helm: {}
