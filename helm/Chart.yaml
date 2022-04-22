@@ -1,0 +1,6 @@
+apiVersion: v2
+name: cicd-test
+description: A Helm chart to install and deploy the cicd-test in the kubernetes environment
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
