@@ -1,0 +1,10 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-cicd-test-path
+  labels:
+    {{- include "cicd-test.labels" . | nindent 4 }}
+spec:
+  stripPrefix:
+    prefixes:
+      - /cicd-test

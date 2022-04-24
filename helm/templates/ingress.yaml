@@ -1,19 +1,18 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
 metadata:
   name: {{ include "cicd-test.name" . }}
   labels:
     {{- include "cicd-test.labels" . | nindent 4 }}
-  annotations:
-    ingress.kubernetes.io/ssl-redirect: "false"
 spec:
-  rules:
-    - http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: {{ include "cicd-test.name" . }}
-                port:
-                  number: 80
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: PathPrefix(`/cicd-test`)
+      middlewares:
+        - name: strip-cicd-test-path
+      services:
+        - kind: Service
+          name: {{ include "cicd-test.name" . }}
+          port: 80
