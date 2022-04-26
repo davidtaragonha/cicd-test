@@ -63,13 +63,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: kube-score check
-        uses: piraces/kube-score-ga@v0.1.2
+      - name: Scan repo with kube-linter
+        uses: stackrox/kube-linter-action@v1.0.4
         with:
-          manifests-folders: './k8s/*.yml'
-      - name: LS files
-        run: |
-          ls -lisa
+          directory: helm
+          format: sarif
 # Execute the unit tests of the project
   Unit-Tests:
     runs-on: ubuntu-latest
