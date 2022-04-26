@@ -22,6 +22,7 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
+app.kubernetes.io/component: backend
 app.kubernetes.io/part-of: org.alonso
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
