@@ -5,6 +5,26 @@ on:
     branches:
       - main
 jobs:
+  Pull-Request-Labeler:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: codelytv/pr-size-labeler@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          xs_label: 'size/xs'
+          xs_max_size: '10'
+          s_label: 'size/s'
+          s_max_size: '100'
+          m_label: 'size/m'
+          m_max_size: '500'
+          l_label: 'size/l'
+          l_max_size: '1000'
+          xl_label: 'size/xl'
+          fail_if_xl: 'true'
+          message_if_xl: >
+            This PR exceeds the recommended size of 1000 lines.
+            Please make sure you are NOT addressing multiple issues with one PR.
+            Note this PR might be rejected due to its size.
   # Review if the title of the PR follow the semantic commit convention
   Semantic-Pull-Request:
     runs-on: ubuntu-latest
@@ -16,7 +36,7 @@ jobs:
 # Compile the project
   Compile:
     runs-on: ubuntu-latest
-    needs: [Semantic-Pull-Request]
+    needs: [Semantic-Pull-Request, Pull-Request-Labeler]
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 11
@@ -38,7 +58,7 @@ jobs:
 # Scan vulnerabilities in the third party dependencies
   Maven-Dependencies-Review:
     runs-on: ubuntu-latest
-    needs: [Semantic-Pull-Request]
+    needs: [Semantic-Pull-Request, Pull-Request-Labeler]
     steps:
       - uses: actions/checkout@v3
       - name: 'Dependency Review'
@@ -46,7 +66,7 @@ jobs:
 # Scan code
   Code-Review:
     runs-on: ubuntu-latest
-    needs: [Semantic-Pull-Request]
+    needs: [Semantic-Pull-Request, Pull-Request-Labeler]
     strategy:
       fail-fast: false
       matrix:
@@ -69,7 +89,7 @@ jobs:
 # Scan k8s manifests
   K8s-Manifest-Review:
     runs-on: ubuntu-latest
-    needs: [Semantic-Pull-Request]
+    needs: [Semantic-Pull-Request, Pull-Request-Labeler]
     steps:
       - uses: actions/checkout@v3
       - name: Scan repo with kube-linter
